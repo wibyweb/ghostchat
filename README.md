@@ -34,6 +34,8 @@ Change message of the day: /motd message
 
 Remove message of the day: /motd
 
+Filter swearwords: Add swearwords to 'swearfilter' file.
+
 --------------------------------------------------
 
 Note: 
