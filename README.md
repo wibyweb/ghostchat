@@ -15,7 +15,7 @@ Enter chat: http://serverIP:PORT/chat/ - Hit refresh for it to begin working. De
 
 
 --------------------------------------------------
-Admin Commands (Place admin IPs in 'adminip' file)
+Admin Commands (Place admin IPs inside 'adminip' file)
 --------------------------------------------------
 
 Close chat: /close
