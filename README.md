@@ -8,7 +8,7 @@ Author: Wiby Search Engine
 
 License: GPL v2
 
-All files can be retrieved from http://wiby.me/download/ghostchat.zip or https://github.com/wibyweb/ghostchat/
+Full source can be retrieved from http://wiby.me/download/ghostchat.zip or https://github.com/wibyweb/ghostchat/
 
 
 Enter chat: http://serverIP:PORT/chat/ - Hit refresh for it to begin working. Default port is 4444. 
