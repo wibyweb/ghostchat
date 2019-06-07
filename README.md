@@ -39,7 +39,7 @@ Remove message of the day: /motd
 
 Note: 
 
-  Anything inside the chat folder is served publicly.
+	Anything inside the chat folder is served publicly.
   
 	If cursor does not appear on form after pressing send, press Tab.
   
