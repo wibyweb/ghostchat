@@ -66,7 +66,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			case "GET":
 			http.Handle("/chat/", http.StripPrefix("/chat/", http.FileServer(http.Dir("chat/"))))
 
-				case "POST":
+			case "POST":
 			// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
 			if err := r.ParseForm(); err != nil {
 				fmt.Fprintf(w, "ParseForm() err: %v", err)
