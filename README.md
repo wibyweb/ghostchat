@@ -24,6 +24,8 @@ Open chat: /open
 
 Ban user and delete their posts: /ban userID
 
+Ban users and delete posts containing string: /banstr string
+
 Enable or clear chat log: /log
 
 Disable and delete chat log: /nolog
