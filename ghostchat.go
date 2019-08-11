@@ -591,7 +591,7 @@ func commandhandler(formMessage string, ip string) int{
 			cleansedfeed := feedheader
 			feedlines := strings.Split(feedstring, "<br>\n")
 			for _, line := range feedlines{
-				if strings.Contains(line,noun) == false{
+				if strings.Contains(strings.ToLower(line),strings.ToLower(noun)) == false{
 					cleansedfeed += line
 					cleansedfeed += "<br>\n"
 				}
@@ -615,7 +615,7 @@ func commandhandler(formMessage string, ip string) int{
 				cleansedchatlog := ""
 				chatloglines := strings.Split(chatlogstring, "<br>\n")
 				for _, line := range chatloglines{
-					if strings.Contains(line,noun) == false{
+					if strings.Contains(strings.ToLower(line),strings.ToLower(noun)) == false{
 						cleansedchatlog += line
 						cleansedchatlog += "<br>\n"
 					}
@@ -639,7 +639,7 @@ func commandhandler(formMessage string, ip string) int{
 			targetip := ""
 			adminloglines := strings.Split(adminlogstring, "\n")
 			for _, line := range adminloglines{
-				if strings.Contains(line,noun){
+				if strings.Contains(strings.ToLower(line),strings.ToLower(noun)){
 					targetip = strings.Split(line, " ")[0]
 					targetip = strings.Replace(targetip, " ", "", -1)
 					if strings.Contains(targetips,targetip) == false{
@@ -687,7 +687,7 @@ func commandhandler(formMessage string, ip string) int{
 			cleansedfeed := feedheader
 			feedlines := strings.Split(feedstring, "<br>\n")
 			for _, line := range feedlines{
-				if strings.Contains(line,noun) == false{
+				if strings.Contains(strings.ToLower(line),strings.ToLower(noun)) == false{
 					cleansedfeed += line
 					cleansedfeed += "<br>\n"
 				}
@@ -711,7 +711,7 @@ func commandhandler(formMessage string, ip string) int{
 				cleansedchatlog := ""
 				chatloglines := strings.Split(chatlogstring, "<br>\n")
 				for _, line := range chatloglines{
-					if strings.Contains(line,noun) == false{
+					if strings.Contains(strings.ToLower(line),strings.ToLower(noun)) == false{
 						cleansedchatlog += line
 						cleansedchatlog += "<br>\n"
 					}
