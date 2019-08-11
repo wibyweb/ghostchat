@@ -11,7 +11,7 @@ License: GPL v2
 Full source can be retrieved from http://wiby.me/download/ghostchat.zip or https://github.com/wibyweb/ghostchat/
 
 
-Enter chat: http://serverIP:PORT/chat/ - Hit refresh for it to begin working. Default port is 4444. 
+Enter the chat: http://serverIP:PORT/chat/ - Hit refresh for it to begin working. Default port is 4444. 
 
 
 --------------------------------------------------
@@ -25,6 +25,8 @@ Open chat: /open
 Ban user and delete their posts: /ban userID
 
 Ban users and delete posts containing string: /banstr string
+
+Delete posts containing string: /delstr string
 
 Enable or clear chat log: /log
 
