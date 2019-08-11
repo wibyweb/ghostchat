@@ -14,6 +14,7 @@
 //Open chat: /open
 //Ban user and delete their posts: /ban userID
 //Ban users and delete posts containing string: /banstr string
+//Delete posts containing string: /delstr string
 //Enable or clear chat log: /log
 //Disable and delete chat log: /nolog
 //Clear chat feed: /clear
@@ -51,11 +52,11 @@ func main() {
 	http.HandleFunc("/chat/post",handler)
 	http.HandleFunc("/", handler)
 	log.Fatal(http.ListenAndServe(":4444", nil))
-//	log.Fatal(http.ListenAndServe("localhost:4444", nil))//For use behind a reverse proxy, make sure to send X-Real-IP header. Disable above line to use this one, also enable line 58 and disable line 59.
+//	log.Fatal(http.ListenAndServe("localhost:4444", nil))//For use behind a reverse proxy, make sure to send X-Real-IP header. Disable above line to use this one, also enable line 59 and disable line 60.
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	//ip := r.Header.Get("X-Real-IP") //For use behind a reverse proxy. Make sure your reverse proxy is configured so header X-Real-IP cannot be spoofed. Also see comments on line 54
+	//ip := r.Header.Get("X-Real-IP") //For use behind a reverse proxy. Make sure your reverse proxy is configured so header X-Real-IP cannot be spoofed. Also see comments on line 55
 	ip := r.RemoteAddr[0:strings.LastIndex(r.RemoteAddr,":")]
 
 	if checkban(ip) == false{
@@ -323,6 +324,10 @@ func commandhandler(formMessage string, ip string) int{
 	if len(formMessage) > 8 && formMessage[0:8] == "/banstr "{
 		noun = strings.TrimPrefix(formMessage, "/banstr ")
 		formMessage = "/banstr"
+	}
+	if len(formMessage) > 8 && formMessage[0:8] == "/delstr "{
+		noun = strings.TrimPrefix(formMessage, "/delstr ")
+		formMessage = "/delstr"
 	}
 	switch formMessage{ //process any verbs
 	case "/close": //close the chat
@@ -655,6 +660,74 @@ func commandhandler(formMessage string, ip string) int{
 					blockip.Sync()
 				}
 				blockip.Close()
+			}
+		}
+		return 1
+	case "/delstr": //Delete posts that contain string		
+		if checkAdminIP(ip) == true && noun != ""{
+			//read chat feed
+			feedstring := ""
+			feed, err := ioutil.ReadFile("chat/feed.html")
+			if err == nil{
+				feedstring = string(feed)
+			}
+			//read chatlog (if available)
+			chatlogstring := ""
+			chatlog, err := ioutil.ReadFile("chat/chatlog.html")
+			if err == nil{
+				chatlogstring = string(chatlog)
+			}
+
+			//strip header from chat feed
+			strings.TrimPrefix(feedstring, feedheader)
+			//strip footer from chat feed
+			strings.Replace(feedstring, feedfooter, "", -1)
+
+			//loop over every line in feed, remove all lines containing string
+			cleansedfeed := feedheader
+			feedlines := strings.Split(feedstring, "<br>\n")
+			for _, line := range feedlines{
+				if strings.Contains(line,noun) == false{
+					cleansedfeed += line
+					cleansedfeed += "<br>\n"
+				}
+			}
+			cleansedfeed += feedfooter
+
+			//update feed
+			f, err := os.OpenFile("chat/feed.html", os.O_TRUNC|os.O_CREATE|os.O_WRONLY, 0600)
+			if err != nil {
+				panic(err)
+			}
+			defer f.Close()
+			if _, err = f.WriteString(cleansedfeed); err != nil {
+				panic(err)
+			}
+			f.Sync()
+			f.Close()
+
+			//loop over every line in chatlog, remove all lines containing string
+			if chatlogstring != ""{
+				cleansedchatlog := ""
+				chatloglines := strings.Split(chatlogstring, "<br>\n")
+				for _, line := range chatloglines{
+					if strings.Contains(line,noun) == false{
+						cleansedchatlog += line
+						cleansedchatlog += "<br>\n"
+					}
+				}
+
+				//update chatlog
+				cl, err := os.OpenFile("chat/chatlog.html", os.O_TRUNC|os.O_CREATE|os.O_WRONLY, 0600)
+				if err != nil {
+					panic(err)
+				}
+				defer cl.Close()
+				if _, err = cl.WriteString(cleansedchatlog); err != nil {
+					panic(err)
+				}
+				cl.Sync()
+				cl.Close()
 			}
 		}
 		return 1
