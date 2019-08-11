@@ -751,13 +751,13 @@ func createID(ip string, date string) string{
 	keystring = keystring[dateint*3-3:dateint*3]//every day of the month gets a new 3 byte key, based on a key string of at least 93 bytes (3 bytes per day of the month up to 31 days)
 	id := ""
 	//xor ip with key
-		for i := 0; i < len(ip); i++ {
-				id += string(ip[i] ^ keystring[i])
-		}
+	for i := 0; i < len(ip); i++ {
+			id += string(ip[i] ^ keystring[i])
+	}
 	//convert to a number system so ID will render properly
 	//return hex.EncodeToString([]byte(id)) //going to use base36 instead of base16 for compactness
-		idstring := string(EncodeBytesAsBytes([]byte(id)))
-		idstring = idstring[1:len(idstring)]
+	idstring := string(EncodeBytesAsBytes([]byte(id)))
+	idstring = idstring[1:len(idstring)]
 	return idstring
 }
 
